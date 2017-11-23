@@ -62,7 +62,7 @@ class App extends Component {
         <Switch>
             <Route path="/account" component={accountWrapper}/>
             <Route path="/user" component={UserProfile}/>
-            <Route path="/" component={Home}/>
+            <Route path="/" render={() => (<Home account={this.state} />)}/>
           </Switch>
         </Router>
       </div>
