@@ -7,13 +7,26 @@ import UserProfile from './components/UserProfile.jsx'
 import Account from './components/Account.jsx'
 import axios from 'axios';
 
-// Get axios working
-
 class App extends Component {
-  state = {
-    credits: [],
-    debits: []
+  constructor() {
+    super();
+
+    this.state = {
+      currentUser: {
+        userName: 'ejonelunas',
+        memberSince: 1995,
+      },
+      debits: [],
+      credits: [],
+    };
   }
+
+  _getDebits = () => {
+    axios.get('http://localhost:4000/credits').then((response) => {
+      const debits = response.data;
+      this.setState({debits});
+    });
+  };
   
   _getCredits = () => {
     axios.get('http://localhost:4000/credits').then((response) => {
@@ -22,8 +35,21 @@ class App extends Component {
     });
   };
 
+  _addNewDebit = (newDebit) => {
+    const debits = [...this.state.debits];
+    debits.push(newDebit);
+    this.setState({debits});
+  };
+
+  _addNewCredit = (newCredit) => {
+    const credits = [...this.state.credits];
+    credits.push(newCredit);
+    this.setState({credits});
+  };
+
   componentWillMount() {
     this._getCredits();
+    this._getCredits();    
   }
   render() {
     const accountWrapper = () => (
